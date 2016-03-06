@@ -1,7 +1,7 @@
 (ns til.pages.not-found
   (:require [reagent.session :as session]))
 
-(defn not-found-page []
+(defn page []
   (let [route (session/get :route)]
     [:div.row
      [:div.col.s12

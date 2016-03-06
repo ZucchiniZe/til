@@ -6,8 +6,8 @@
             [til.db :as db]
             [til.sente :as s]
             [til.components :as c]
-            cljsjs.jquery)
-  (:import goog.History))
+            [til.routes]
+            cljsjs.jquery))
 
 ;; -------------------------
 ;; Initial setup

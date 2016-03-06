@@ -1,7 +1,8 @@
 (ns til.pages.new
   (:require [clojure.string :as str]
             [til.components :as c]
-            [reagent.core :as r]))
+            [reagent.core :as r]
+            [reagent.ratom :refer-macros [reaction]]))
 
 (defn page []
   (let [title (r/atom "")

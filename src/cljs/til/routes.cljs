@@ -1,14 +1,16 @@
 (ns til.routes
-  (:require [secretary.core :refer-macros [defroute]]
+  (:require [secretary.core :as secretary :refer-macros [defroute]]
             [goog.events :as events]
             [goog.history.EventType :as EventType]
             [reagent.session :as session]
+            [til.util :as u]
             [til.pages.home :as home]
             [til.pages.tils :as tils]
             [til.pages.tag :as tag]
             [til.pages.til :as til]
             [til.pages.new :as new]
-            [til.pages.not-found :as not-found]))
+            [til.pages.not-found :as not-found])
+  (:import goog.History))
 
 (secretary/set-config! :prefix "#")
 
