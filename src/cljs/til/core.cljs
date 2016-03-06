@@ -2,16 +2,16 @@
   (:require-macros [cljs.core.async.macros :as asyncm :refer (go go-loop)])
   (:require [clojure.string :as str]
             [cljs.core.async :as async  :refer (<! >! put! chan)]
-            [taoensso.timbre :as timbre :refer-macros (tracef debugf infof warnf errorf)]
-            [taoensso.sente  :as sente  :refer (cb-success?)]
-            [reagent.core :as r]
-            [reagent.ratom :refer-macros [reaction]]
-            [reagent.session :as session]
             [secretary.core :as secretary :refer-macros [defroute]]
             [posh.core :as p]
             [datascript.core :as d]
             [goog.events :as events]
             [goog.history.EventType :as EventType]
+            [reagent.core :as r]
+            [reagent.ratom :refer-macros [reaction]]
+            [reagent.session :as session]
+            [taoensso.timbre :as timbre :refer-macros (tracef debugf infof warnf errorf)]
+            [taoensso.sente :as sente]
             cljsjs.marked
             cljsjs.moment
             cljsjs.hashids
@@ -135,7 +135,9 @@
    [:a.btn-floating.btn-large.red.waves-effect.waves-light
     (if-not til
       {:href "#/new"}
-      {:onClick #(chsk-send! [:til/add til])})
+      {:onClick #(do
+                   (chsk-send! [:til/add til])
+                   (navigate! "/tidbits"))})
     [:i.large.material-icons (if-not til
                                "mode_edit"
                                "send")]]])
