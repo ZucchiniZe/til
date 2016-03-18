@@ -25,10 +25,8 @@
                  [cljsjs/jquery             "2.1.4-0"]
                  [cljsjs/hashids            "1.0.2-0"]
                  [reagent                   "0.5.1"]
-                 [reagent-utils             "0.1.7"]
-                 [secretary                 "1.2.3"]
-                 [posh                      "0.3.4.1"]
-                 [datascript                "0.15.0"]]
+                 [re-frame                  "0.7.0"]
+                 [secretary                 "1.2.3"]]
 
   :plugins [[lein-figwheel "0.5.0-6"]
             [lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]

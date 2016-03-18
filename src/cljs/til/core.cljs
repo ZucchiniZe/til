@@ -1,40 +1,20 @@
 (ns til.core
-  (:require [secretary.core :as secretary]
-            [posh.core :as p]
-            [reagent.core :as r]
-            [reagent.session :as session]
-            [til.db :as db]
-            [til.sente :as s]
-            [til.components :as c]
-            [til.routes]
-            cljsjs.jquery))
-
-;; -------------------------
-;; Initial setup
+  (:require [reagent.core :as reagent]
+            [re-frame.core :as rf]
+            [til.sente :as sente]
+            [til.views :as view]
+            [til.routes :as routes]
+            [til.handlers]
+            [til.subs]))
 
 (enable-console-print!)
-
-(p/posh! db/conn)
-
-;; -------------------------
-;; Root component
-
-(defn root []
-  (let [location (subs js/window.location.hash 1)]
-    [:div
-     [:div.navbar-fixed
-      [:nav
-       [:div.nav-wrapper.blue.darken-3
-        [:a.brand-logo.center {:href "#/"} "TIL"]]]]
-     [:div.container
-      [(session/get :current-page)]]
-     (if-not (= location "/new")
-       [c/fab-button])]))
 
 ;; -------------------------
 ;; Init function
 
 (defn ^:export init! []
-  (s/start-router!)
-  (secretary/dispatch! (subs js/window.location.hash 1))
-  (r/render-component [root] (. js/document (getElementById "app"))))
+  (sente/start-router!)
+  (routes/add-routes)
+  (rf/dispatch-sync [:initalize-db])
+  (reagent/render [view/root]
+                  (. js/document (getElementById "app"))))

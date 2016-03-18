@@ -1,7 +1,7 @@
 (ns til.sente
   (:require [taoensso.sente :as sente]
             [taoensso.timbre :as timbre :refer-macros (tracef debugf infof warnf errorf)]
-            [til.util :as u]))
+            [re-frame.core :as rf]))
 
 ;; -------------------------
 ;; Sente setup
@@ -47,7 +47,7 @@
 (defmethod -event-msg-handler :til/new
   [{:as ev-msg :keys [?data]}]
   (timbre/debug "got til event" ?data)
-  (u/add-til ?data))
+  (rf/dispatch [:add-new-til ?data]))
 
 
 ;; -------------------------

@@ -1,22 +1,17 @@
 (ns til.pages.til
-  (:require [til.db :as db]
+  (:require [re-frame.core :as rf]
             [til.util :as u]
             [til.components :as c]
-            [posh.core :as p]
-            [reagent.session :as session]
-            [reagent.ratom :refer-macros [reaction]]))
+            [cljsjs.marked]))
 
 (defn page []
-  (let [id (session/get :id)
-        pre-til (p/q db/conn '[:find (pull ?id [:title :body :tags :date])
-                               :in $ ?id]
-                     (js/parseInt id))
-        til (reaction (ffirst @pre-til))]
+  (let [id (rf/subscribe [:get-route-id])
+        til (rf/subscribe [:get-til-by-id @id])]
     [:div.row
      [:div.col.l12
       [:h1 (:title @til)]
       [:div
        [:h4 (u/format-date (:date @til))]
        (for [tag (:tags @til)]
-         ^{:key tag} [:a {:href (str "#/tag/" tag)} " #" tag])]
-      [:div {:dangerouslySetInnerHTML {:__html (js/marked (:body @til))}}]]]))
+         ^{:key tag} [:a {:href (str "#/tag/" tag)} " #" tag])
+       [:div {:dangerouslySetInnerHTML {:__html (js/marked (:body @til))}}]]]]))

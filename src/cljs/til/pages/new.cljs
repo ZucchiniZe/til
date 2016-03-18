@@ -28,7 +28,11 @@
                                                  :onChange #(reset! content (.. % -target -value))}]]
        (if-not (empty? (str @title @content @tags))
          [:div
-          [c/card @title @content @tags-arr (if (not= @title "") date)]
+          [c/card
+           {:title @title
+            :body @content
+            :tags @tags-arr
+            :date (if (not= @title "") date)}]
           (if-not (or (empty? @title) (empty? @content) (empty? @tags))
             [c/fab-button {:title @title
                            :body @content

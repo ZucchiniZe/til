@@ -39,21 +39,18 @@
     [:meta {:name "viewport"
             :content "width=device-width, initial-scale=1"}]
     (include-css "https://fonts.googleapis.com/icon?family=Material+Icons")
-    (include-css "materialize/css/materialize.min.css")
+    (include-css "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css")
     (include-css "css/style.css")]
    [:body
     [:div#app
      [:div.progress
       [:div.indeterminate]]]
     (include-js "js/jquery-2.1.1.min.js")
-    (include-js "materialize/js/materialize.min.js")
+    (include-js "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js")
     (include-js "js/compiled/til.js")
     [:script "til.core.init_BANG_();"]]))
 
 ;; (defn login-handler
-;;   "Here's where you'll add your server-side login/auth procedure (Friend, etc.).
-;;   In our simplified example we'll just always successfully authenticate the user
-;;   with whatever user-id they provided in the auth request."
 ;;   [ring-req]
 ;;   (let [{:keys [session params]} ring-req
 ;;         {:keys [user-id]} params]

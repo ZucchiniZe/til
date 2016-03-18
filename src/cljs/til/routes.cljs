@@ -1,40 +1,42 @@
 (ns til.routes
-  (:require [secretary.core :as secretary :refer-macros [defroute]]
+  (:require-macros [secretary.core :refer [defroute]])
+  (:import goog.History)
+  (:require [secretary.core :as secretary]
             [goog.events :as events]
             [goog.history.EventType :as EventType]
-            [reagent.session :as session]
-            [til.util :as u]
-            [til.pages.home :as home]
-            [til.pages.tils :as tils]
-            [til.pages.tag :as tag]
-            [til.pages.til :as til]
-            [til.pages.new :as new]
-            [til.pages.not-found :as not-found])
-  (:import goog.History))
+            [re-frame.core :as rf]
+            [til.util :as u]))
 
-(secretary/set-config! :prefix "#")
+(defn hook-browser-navigation! []
+  (doto (History.)
+    (events/listen
+     EventType/NAVIGATE
+     (fn [event]
+       (secretary/dispatch! (.-token event))))
+    (.setEnabled true)))
 
-(defroute "/" []
-  (session/put! :current-page #'home/page))
+(defn add-routes []
+  (secretary/set-config! :prefix "#")
 
-(defroute "/new" []
-  (session/put! :current-page #'new/page))
+  (defroute "/" []
+    (rf/dispatch [:set-active-page :home]))
 
-(defroute "/tidbits" []
-  (session/put! :current-page #'tils/page))
+  (defroute "/new" []
+    (rf/dispatch [:set-active-page :new]))
 
-(defroute "/bit/:id" [id]
-  (session/put! :id (u/hash->id id))
-  (session/put! :current-page #'til/page))
+  (defroute "/tidbits" []
+    (rf/dispatch [:set-active-page :tils]))
 
-(defroute "/tag/:tag" [tag]
-  (session/put! :tag tag)
-  (session/put! :current-page #'tag/page))
+  (defroute "/bit/:id" [id]
+    (rf/dispatch [:set-route-id (u/hash->id id)])
+    (rf/dispatch [:set-active-page :til]))
 
-(defroute "*" {:as p}
-  (session/put! :route (:* p))
-  (session/put! :current-page #'not-found/page))
+  (defroute "/tag/:tag" [tag]
+    (rf/dispatch [:set-route-tag tag])
+    (rf/dispatch [:set-active-page :tag]))
 
-(let [h (History.)]
-  (goog.events/listen h EventType/NAVIGATE #(secretary/dispatch! (.-token %)))
-  (doto h (.setEnabled true)))
+  (defroute "*" {:as p}
+    (rf/dispatch [:set-route-not-found (:* p)])
+    (rf/dispatch [:set-active-page :not-found]))
+
+  (hook-browser-navigation!))

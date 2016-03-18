@@ -1,23 +1,12 @@
 (ns til.pages.tag
-  (:require [til.db :as db]
-            [til.components :as c]
-            [posh.core :as p]
-            [reagent.ratom :refer-macros [reaction]]
-            [reagent.session :as session]))
+  (:require [re-frame.core :as rf]
+            [til.components :as c]))
 
 (defn page []
-  (let [tag (session/get :tag)
-        pre-posts (p/q db/conn '[:find (pull ?e [:title :body :tags :date :db/id])
-                                 :in $ ?tag
-                                 :where
-                                 [?e :tags ?tag]
-                                 [?e :title ?title]
-                                 [?e :body ?body]]
-                       tag)
-        posts (reaction (map #(% 0) @pre-posts))]
+  (let [tag (rf/subscribe [:get-route-tag])
+        tils (rf/subscribe [:get-til-by-tag @tag])]
     [:div.row
      [:div.col.l12
-      [:h3 "Viewing TILs tagged: #" tag]]
-     (for [post @posts]
-       ^{:key (:db/id post)} [c/card (:title post) (:body post) (:tags post) (:date post) (:db/id post)])]))
-
+      [:h3 "Viewing TILs tagged: #" @tag]]
+     (for [til @tils]
+       ^{:key (:id til)} [c/card til])]))
