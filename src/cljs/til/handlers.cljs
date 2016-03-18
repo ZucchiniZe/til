@@ -1,6 +1,7 @@
 (ns til.handlers
   (:require [re-frame.core :as rf]
-            [til.db :as db]))
+            [til.db :as db]
+            [til.util :as u]))
 
 (rf/register-handler
  :initalize-db
@@ -38,7 +39,8 @@
  (fn [db [new-til]]
    (let [id (:current-id db)
          tils (:tils db)
-         new (assoc new-til :id (inc id))]
+         with-id (assoc new-til :id (inc id))
+         with-date (assoc with-id :date (js/Date.))]
      (-> db
-         (assoc :tils (conj tils new))
+         (assoc :tils (conj tils with-date))
          (assoc :current-id (inc id))))))

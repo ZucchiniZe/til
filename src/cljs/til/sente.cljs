@@ -26,29 +26,15 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
-  (timbre/debug id #_ev-msg)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler
   :default ; Default/fallback case (no other matching handler)
   [{:as ev-msg :keys [event]}]
-  #_(timbre/debug "Unhandled event: " event))
-
-(defmethod -event-msg-handler :chsk/state
-  [{:as ev-msg :keys [?data]}]
-  (if (= ?data {:first-open? true})
-    (timbre/debug "Channel socket successfully established!")
-    (timbre/debug "Channel socket state change: " ?data)))
-
-(defmethod -event-msg-handler :chsk/handshake
-  [{:as ev-msg :keys [?data]}]
-  (let [[?uid ?csrf-token ?handshake-data] ?data]
-    (timbre/debug "Handshake: " ?data)))
+  (timbre/debug "Unhandled event: " event))
 
 (defmethod -event-msg-handler :til/new
   [{:as ev-msg :keys [?data]}]
-  (timbre/debug "got til event" ?data)
-  ;; (u/add-til ?data))
   (rf/dispatch [:add-new-til ?data]))
 
 

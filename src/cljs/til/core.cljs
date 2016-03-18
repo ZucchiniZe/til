@@ -9,9 +9,6 @@
 
 (enable-console-print!)
 
-;; -------------------------
-;; Init function
-
 (defn ^:export init! []
   (sente/start-router!)
   (routes/add-routes)
