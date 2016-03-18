@@ -57,8 +57,7 @@
                 :compiler {:output-to "resources/public/js/compiled/til.js"
                            :main til.core
                            :optimizations :advanced
-                           :pretty-print false
-                           :externs ["resources/public/materialize/js/materialize.min.js"]}}]}
+                           :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default

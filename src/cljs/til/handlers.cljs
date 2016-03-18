@@ -38,7 +38,7 @@
  (fn [db [new-til]]
    (let [id (:current-id db)
          tils (:tils db)
-         new (assoc tils :id (inc id))]
+         new (assoc new-til :id (inc id))]
      (-> db
          (assoc :tils (conj tils new))
          (assoc :current-id (inc id))))))

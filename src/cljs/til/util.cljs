@@ -19,5 +19,5 @@
 
 (defn add-til [{:keys [title body tags] :as til}]
   (rf/dispatch [:add-new-til til])
-  (let [id (id->hash (rf/subscribe [:current-id]))]
+  #_(let [id (id->hash (rf/subscribe [:current-id]))]
     (js/Materialize.toast (str "<a class='white-text' href='#/bit/" id "'>Added TIL: " title "</a>") 5000 "green")))

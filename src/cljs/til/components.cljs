@@ -13,8 +13,9 @@
     (if-not til
       {:href "#/new"}
       {:onClick #(do
+                   ;; (println til)
                    (s/chsk-send! [:til/add til])
-                   (u/navigate! "/tidbits"))})
+                   #_(u/navigate! "/tidbits"))})
     [:i.large.material-icons (if-not til
                                "mode_edit"
                                "send")]]])
