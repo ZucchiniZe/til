@@ -13,6 +13,7 @@
             [buddy.auth :refer [authenticated? throw-unauthorized]]
             [buddy.auth.middleware :refer [wrap-authentication]]
             [buddy.auth.backends.session :refer [session-backend]]
+            [environ.core :refer [env]]
             [til.sente :as sente]
             [til.pages :as pages]
             [til.handlers :as handlers]
@@ -53,7 +54,8 @@
       (wrap-params)))
 
 (defn start-web-server! [& [port]]
-  (http-kit/run-server handler {:port 3000}))
+  (let [port (Integer. (or port (env :port) 3000))]
+    (http-kit/run-server handler {:port port})))
 
 (defn start! [] (sente/start-router!) (start-web-server!))
 
