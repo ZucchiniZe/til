@@ -19,8 +19,8 @@
                  [com.taoensso/timbre       "4.3.0"]
                  [buddy/buddy-core          "0.11.0"]
                  [buddy/buddy-auth          "0.11.0"]
-                 [com.layerware/hugsql      "0.4.5"]
                  [org.postgresql/postgresql "9.4.1207"]
+                 [com.layerware/hugsql      "0.4.5"]
 
                  ;; Client deps
                  [org.clojure/clojurescript "1.7.170"]

@@ -12,14 +12,11 @@
         user (users/get-by-name db {:username username})
         found-password (:password user)]
     (if (and found-password (= found-password password))
-      (do
-        (println "found user")
         (let [next-url (get-in request [:query-params :next] "/")
               pre-session (assoc session :identity username)
               updated-session (assoc pre-session :uid (:id user))]
-          (println next-url updated-session)
           (-> (redirect next-url)
-              (assoc :session updated-session))))
+              (assoc :session updated-session)))
       (do
         (println "wtf?")
         pages/login))))

@@ -4,10 +4,10 @@
   (apply dissoc map [key]))
 
 (defn track [{:keys [event] :as properties}]
-  (js/analytics.track event #js (remove-key properties :event)))
+  (js/analytics.track event (cljs->js (remove-key properties :event))))
 
 (defn identify [{:keys [userid] :as traits}]
-  (js/analytics.identify userid #js (remove-key traits :userid)))
+  (js/analytics.identify userid (cljs->js (remove-key traits :userid))))
 
 (defn page [name]
   (js/analytics.page name))

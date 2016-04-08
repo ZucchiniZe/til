@@ -8,8 +8,8 @@
             [org.httpkit.server :as http-kit]
             [ring.util.response :refer [response redirect content-type]]
             [ring.middleware.session :refer [wrap-session]]
-            [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.params :refer [wrap-params]]
             [buddy.auth :refer [authenticated? throw-unauthorized]]
             [buddy.auth.middleware :refer [wrap-authentication]]
             [buddy.auth.backends.session :refer [session-backend]]
@@ -36,7 +36,6 @@
   (GET  "/login" []       pages/login)
   (POST "/login" []       handlers/login-authenticate)
   (GET  "/logout" []      handlers/logout)
-  (GET  "/restricted" [] (restricted-access (response "hi")))
   (GET  "/chsk"  ring-req (sente/ring-ajax-get-or-ws-handshake ring-req))
   (POST "/chsk"  ring-req (sente/ring-ajax-post                ring-req))
   (route/resources "/")
@@ -48,9 +47,9 @@
 (defn start-web-server! [& [port]]
   (-> routes
       (wrap-authentication auth-backend)
-      (wrap-params)
-      (wrap-keyword-params)
       (wrap-session)
+      (wrap-keyword-params)
+      (wrap-params)
       (http-kit/run-server {:port 3000})))
 
 (defn start! [& args] (sente/start-router!) (start-web-server! args))
