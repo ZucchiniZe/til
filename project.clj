@@ -22,6 +22,8 @@
                  [org.postgresql/postgresql "9.4.1207"]
                  [com.layerware/hugsql      "0.4.5"]
                  [environ                   "1.0.2"]
+                 [heroku-database-url-to-jdbc "0.2.2"]
+
 
                  ;; Client deps
                  [org.clojure/clojurescript "1.7.170"]
