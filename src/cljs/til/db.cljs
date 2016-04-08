@@ -1,4 +1,4 @@
-(ns til.db)
+(ns til.data)
 
 (def initial-db {:current-route :home
                  :userid nil
@@ -15,4 +15,4 @@
                          :title "Clojure is amazing"
                          :body "clojure is the best language ever for pretty much everything except rust"
                          :date (js/Date.)
-                         :tags ["clojure" "awesome" "rust"]}]})
+                         :tags ["clojure" "awesome"]}]})

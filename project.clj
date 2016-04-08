@@ -17,6 +17,10 @@
                  [hiccup                    "1.0.5"]
                  [com.taoensso/sente        "1.8.0"]
                  [com.taoensso/timbre       "4.3.0"]
+                 [buddy/buddy-core          "0.11.0"]
+                 [buddy/buddy-auth          "0.11.0"]
+                 [com.layerware/hugsql      "0.4.5"]
+                 [org.postgresql/postgresql "9.4.1207"]
 
                  ;; Client deps
                  [org.clojure/clojurescript "1.7.170"]
@@ -72,7 +76,7 @@
              ;; if you want to embed a ring handler into the figwheel http-kit
              ;; server, this is for simple ring servers, if this
              ;; doesn't work for you just run your own server :)
-             :ring-handler til.server/main-ring-handler
+             :ring-handler til.server/handler
 
              ;; To be able to open files in your editor from the heads up display
              ;; you will need to put a script on your path.

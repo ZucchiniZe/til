@@ -7,8 +7,7 @@
 
 (defn get-by-tag [coll tag]
   (for [data coll
-        wanted [tag]
-        :when (some #{wanted} (:tags data))]
+        :when (some #{[tag]} (:tags data))]
     data))
 
 (rf/register-sub

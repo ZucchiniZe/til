@@ -1,18 +1,20 @@
 (ns til.handlers
   (:require [re-frame.core :as rf]
-            [til.db :as db]
-            [til.util :as u]))
+            [til.data :as data]
+            [til.util :as u]
+            [til.analytics :as a]))
 
 (rf/register-handler
  :initalize-db
  rf/trim-v
  (fn []
-   db/initial-db))
+   data/initial-db))
 
 (rf/register-handler
  :set-active-page
  rf/trim-v
  (fn [db [page]]
+   (a/page (name page))
    (assoc db :current-route page)))
 
 (rf/register-handler

@@ -26,15 +26,25 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
+  #_(timbre/debug id #_ev-msg)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler
   :default ; Default/fallback case (no other matching handler)
   [{:as ev-msg :keys [event]}]
-  (timbre/debug "Unhandled event: " event))
+  )
+
+(defmethod -event-msg-handler :chsk/state
+  [{:as ev-msg :keys [?data]}]
+  )
+
+(defmethod -event-msg-handler :chsk/handshake
+  [{:as ev-msg :keys [?data]}]
+  )
 
 (defmethod -event-msg-handler :til/new
   [{:as ev-msg :keys [?data]}]
+  ;; (timbre/debug "got til event" ?data)
   (rf/dispatch [:add-new-til ?data]))
 
 
