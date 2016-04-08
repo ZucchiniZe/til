@@ -6,7 +6,8 @@ CREATE TABLE tils (
        body varchar(2000),
        tags text,
        user_id integer,
-       created_at timestamp
+       created_at timestamp,
+       FOREIGN KEY(user_id) REFERENCES users (id)
 );
 
 -- :name create :! :n

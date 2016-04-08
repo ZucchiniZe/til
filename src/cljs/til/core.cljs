@@ -15,3 +15,6 @@
   (rf/dispatch-sync [:initalize-db])
   (reagent/render [view/root]
                   (. js/document (getElementById "app"))))
+
+(defn ^:export login! []
+  (rf/dispatch [:set-active-page :login]))

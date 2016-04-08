@@ -39,6 +39,8 @@
 
   :main til.server
 
+  :uberjar-name "til.jar"
+
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :cljsbuild {:builds
@@ -61,6 +63,7 @@
                 :compiler {:output-to "resources/public/js/compiled/til.js"
                            :main til.core
                            :optimizations :advanced
+                           :externs ["resources/externs/window.js"]
                            :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
@@ -100,5 +103,4 @@
              :uberjar {:prep-tasks ["compile" ["cljsbuild" "once" "min"]]
                        :env {:production true}
                        :aot :all
-                       :omit-source true
                        }})

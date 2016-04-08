@@ -2,9 +2,9 @@
 -- :doc create the users table
 CREATE TABLE users (
        id serial PRIMARY KEY,
-       username varchar(50),
-       email varchar(50),
-       password varchar(100)
+       username varchar(255),
+       email varchar(255),
+       password varchar(255)
 );
 
 -- :name create-sql :! :n

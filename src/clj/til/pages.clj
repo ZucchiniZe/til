@@ -48,7 +48,7 @@
     (include-js "js/jquery-2.1.1.min.js")
     (include-js "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js")
     (include-js "js/compiled/til.js")
-    [:script "til.core.init_BANG_();re_frame.core.dispatch(cljs.core.vector(cljs.core.keyword('set-active-page'), cljs.core.keyword('login')))"]]))
+    [:script "til.core.init_BANG_();til.core.login_BANG_();"]]))
 
 ;; (def login
 ;;   (html5

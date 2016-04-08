@@ -1,0 +1,1 @@
+window.username = 'username';
