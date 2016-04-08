@@ -1,6 +1,7 @@
 (ns til.handlers
   (:require [ring.util.response :refer [response redirect content-type]]
             [buddy.auth :refer [authenticated? throw-unauthorized]]
+            [buddy.hashers :as hashers]
             [til.pages :as pages]
             [til.db :refer [db]]
             [til.db.users :as users]))
@@ -11,7 +12,7 @@
         session (:session request)
         user (users/get-by-name db {:username username})
         found-password (:password user)]
-    (if (and found-password (= found-password password))
+    (if (and found-password (hashers/check password found-password))
         (let [next-url (get-in request [:query-params :next] "/")
               pre-session (assoc session :identity username)
               updated-session (assoc pre-session :uid (:id user))]
@@ -33,3 +34,8 @@
     :else
     (let [current-url (:uri request)]
       (redirect (str "/login?next=" current-url)))))
+
+(defn index [request]
+  (if (authenticated? request)
+    (pages/index-logged-in (:identity (:session request)))
+    (pages/index-non-logged-in)))

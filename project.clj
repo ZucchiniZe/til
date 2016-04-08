@@ -17,8 +17,8 @@
                  [hiccup                    "1.0.5"]
                  [com.taoensso/sente        "1.8.0"]
                  [com.taoensso/timbre       "4.3.0"]
-                 [buddy/buddy-core          "0.11.0"]
                  [buddy/buddy-auth          "0.11.0"]
+                 [buddy/buddy-hashers       "0.13.0"]
                  [org.postgresql/postgresql "9.4.1207"]
                  [com.layerware/hugsql      "0.4.5"]
 

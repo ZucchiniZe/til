@@ -32,10 +32,11 @@
      private)))
 
 (defroutes routes
-  (GET  "/"      []       pages/index)
+  (GET  "/"      []       handlers/index)
   (GET  "/login" []       pages/login)
   (POST "/login" []       handlers/login-authenticate)
   (GET  "/logout" []      handlers/logout)
+  (GET  "/restricted" req (restricted-access req "hi"))
   (GET  "/chsk"  ring-req (sente/ring-ajax-get-or-ws-handshake ring-req))
   (POST "/chsk"  ring-req (sente/ring-ajax-post                ring-req))
   (route/resources "/")
@@ -44,15 +45,16 @@
 (def auth-backend
   (session-backend {:unauthorized-handler handlers/unauthorized}))
 
-(defn start-web-server! [& [port]]
+(def handler
   (-> routes
       (wrap-authentication auth-backend)
       (wrap-session)
       (wrap-keyword-params)
-      (wrap-params)
-      (http-kit/run-server {:port 3000})))
+      (wrap-params)))
 
-(defn start! [& args] (sente/start-router!) (start-web-server! args))
+(defn start-web-server! [& [port]]
+  (http-kit/run-server handler {:port 3000}))
 
-(defn -main [& args] "For `lein run`, etc." []
-  (start! args))
+(defn start! [] (sente/start-router!) (start-web-server!))
+
+(defn -main [& args] "For `lein run`, etc." [] (start!))

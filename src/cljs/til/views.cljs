@@ -6,6 +6,7 @@
             [til.pages.til  :as til]
             [til.pages.tag  :as tag]
             [til.pages.new  :as new]
+            [til.pages.login :as login]
             [til.pages.not-found :as not-found]))
 
 (defmulti  page identity)
@@ -14,6 +15,7 @@
 (defmethod page :til  [] [til/page])
 (defmethod page :tag  [] [tag/page])
 (defmethod page :new  [] [new/page])
+(defmethod page :login [] [login/page])
 
 (defn root []
   (let [location (subs js/window.location.hash 1)
@@ -22,8 +24,14 @@
      [:div.navbar-fixed
       [:nav
        [:div.nav-wrapper.blue.darken-3
-        [:a.brand-logo.center {:href "#/"} "TIL"]]]]
+        [:a.brand-logo.center {:href "#/"} "TIL"]
+        (let [username js/window.username]
+          [:ul.right
+           [:li
+            (if-not (nil? username)
+              [:a {:href "/logout"} [:i.left.material-icons "person"] username]
+              [:a {:href "/login"} "login"])]])]]]
      [:div.container
       [page @active-page]
-      (if (not= location "/new")
+      (if (and (not= location "/new") (not (nil? js/window.username)))
         [c/fab-button])]]))

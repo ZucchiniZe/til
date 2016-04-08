@@ -7,8 +7,9 @@ CREATE TABLE users (
        password varchar(100)
 );
 
--- :name create :! :n
+-- :name create-sql :! :n
 -- :doc creates a new user
+-- :require [buddy.hashers :as hashers]
 INSERT INTO users (username, email, password)
 VALUES (:username, :email, :password);
 
