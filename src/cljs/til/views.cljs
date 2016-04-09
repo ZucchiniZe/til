@@ -31,7 +31,8 @@
               authenticated? (nil? username)]
           (if-not authenticated?
             [:ul.right
-             [:li [:a {:href "/logout"} [:i.left.material-icons "person"] username]]]
+             [:li [:a {:href "#/profile"} [:i.left.material-icons "person"] username]]
+             [:li [:a {:href "/logout"} [:i.material-icons "exit_to_app"]]]]
             [:ul.right
              [:li [:a {:href "/login"} "login"]]
              [:li [:a {:href "/register"} "register"]]]))]]]
