@@ -18,6 +18,7 @@
 (defmethod page :new  [] [new/page])
 (defmethod page :login [] [login/page])
 (defmethod page :register [] [register/page])
+(defmethod page :not-found [] [not-found/page])
 
 (defn root []
   (let [location (subs js/window.location.hash 1)
