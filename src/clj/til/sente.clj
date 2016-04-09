@@ -1,8 +1,7 @@
 (ns til.sente
   (:require [taoensso.sente :as sente]
-            [taoensso.timbre    :as timbre :refer (tracef debugf infof warnf errorf)]
-            [taoensso.sente.server-adapters.http-kit :refer (sente-web-server-adapter)]
-            ))
+            [taoensso.timbre :as timbre :refer (tracef debugf infof warnf errorf)]
+            [taoensso.sente.server-adapters.http-kit :refer (sente-web-server-adapter)]))
 
 (let [{:keys [ch-recv send-fn ajax-post-fn ajax-get-or-ws-handshake-fn
               connected-uids]}
@@ -33,12 +32,7 @@
   :default ; Default/fallback case (no other matching handler)
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
   (let [session (:session ring-req)
-        uid     (:uid     session)]
-    (debugf "Unhandled event: %s" event)
-    (when ?reply-fn
-      (?reply-fn {:umatched-event-as-echoed-from-from-server event}))))
-
-;; TODO Add your (defmethod -event-msg-handler <event-id> [ev-msg] <body>)s here...
+        uid     (:uid     session)]))
 
 (defmethod -event-msg-handler :chsk/ws-ping
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]

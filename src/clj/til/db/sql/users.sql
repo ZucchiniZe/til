@@ -17,7 +17,7 @@ VALUES (:username, :email,
 
 -- :name get-by-name :? :1
 -- :doc gets a user by their username
-SELECT * FROM users WHERE username = :username;
+SELECT * FROM users WHERE lower(username) = lower(:username);
 
 -- :name get-by-id :? :1
 -- :doc gets a user by their id

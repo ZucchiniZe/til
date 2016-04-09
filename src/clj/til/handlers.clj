@@ -21,7 +21,7 @@
   (let [username (get-in request [:form-params "username"])
         password (get-in request [:form-params "password"])
         session (:session request)
-        user (users/get-by-name db {:username (str/lower-case username)})
+        user (users/get-by-name db {:username username})
         found-password (:password user)]
     (if (and found-password (hashers/check password found-password))
         (let [next-url (get-in request [:query-params :next] "/")
