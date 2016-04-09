@@ -9,12 +9,20 @@
 
 (enable-console-print!)
 
+(defn mount-root []
+  (reagent/render [view/root]
+                  (. js/document (getElementById "app"))))
+
 (defn ^:export init! []
   (sente/start-router!)
   (routes/add-routes)
   (rf/dispatch-sync [:initalize-db])
-  (reagent/render [view/root]
-                  (. js/document (getElementById "app"))))
+  (mount-root))
 
 (defn ^:export login! []
-  (rf/dispatch [:set-active-page :login]))
+  (rf/dispatch-sync [:set-active-page :login])
+  (mount-root))
+
+(defn ^:export register! []
+  (rf/dispatch-sync [:set-active-page :register])
+  (mount-root))

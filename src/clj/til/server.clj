@@ -22,24 +22,15 @@
             [til.db.tils :as tils])
   (:gen-class))
 
-(defn restricted-access
-  ([req public private]
-   (if-not (authenticated? req)
-     public
-     private))
-  ([req private]
-   (if-not (authenticated? req)
-     (throw-unauthorized)
-     private)))
-
 (defroutes routes
-  (GET  "/"      []       handlers/index)
-  (GET  "/login" []       pages/login)
-  (POST "/login" []       handlers/login-authenticate)
-  (GET  "/logout" []      handlers/logout)
-  (GET  "/restricted" req (restricted-access req "hi"))
-  (GET  "/chsk"  ring-req (sente/ring-ajax-get-or-ws-handshake ring-req))
-  (POST "/chsk"  ring-req (sente/ring-ajax-post                ring-req))
+  (GET  "/"       []       handlers/index)
+  (GET  "/register" []     pages/register)
+  (GET  "/login"  []       pages/login)
+  (POST "/login"  []       handlers/login)
+  (POST "/register" []     handlers/register)
+  (GET  "/logout" []       handlers/logout)
+  (GET  "/chsk"   ring-req (sente/ring-ajax-get-or-ws-handshake ring-req))
+  (POST "/chsk"   ring-req (sente/ring-ajax-post                ring-req))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 

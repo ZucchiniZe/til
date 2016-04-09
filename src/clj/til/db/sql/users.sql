@@ -7,11 +7,13 @@ CREATE TABLE users (
        password varchar(255)
 );
 
--- :name create-sql :! :n
+-- :name create :i!
 -- :doc creates a new user
 -- :require [buddy.hashers :as hashers]
 INSERT INTO users (username, email, password)
-VALUES (:username, :email, :password);
+VALUES (:username, :email,
+--~ (str "'" (hashers/derive ":password") "'")
+);
 
 -- :name get-by-name :? :1
 -- :doc gets a user by their username

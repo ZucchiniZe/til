@@ -21,9 +21,6 @@
   (defroute "/" []
     (rf/dispatch [:set-active-page :home]))
 
-  (defroute "/login" []
-    (rf/dispatch [:set-active-page :login]))
-
   (defroute "/new" []
     (rf/dispatch [:set-active-page :new]))
 
