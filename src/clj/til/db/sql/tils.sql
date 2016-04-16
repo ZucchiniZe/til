@@ -1,6 +1,6 @@
 -- :name create-tils-table :! :raw
 -- :doc create the table for the tils
-CREATE TABLE tils (
+CREATE TABLE IF NOT EXISTS tils (
        id serial PRIMARY KEY,
        title varchar(100),
        body varchar(2000),

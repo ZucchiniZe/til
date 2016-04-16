@@ -23,7 +23,7 @@
         session (:session request)
         user (users/get-by-name db {:username username})
         found-password (:password user)]
-    (if (and found-password (hashers/check password found-password))
+    (if (and user (hashers/check password found-password))
         (let [next-url (get-in request [:query-params :next] "/")
               pre-session (assoc session :identity (:username user))
               updated-session (assoc pre-session :uid (:id user))]
