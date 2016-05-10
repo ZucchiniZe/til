@@ -9,7 +9,8 @@
         til (rf/subscribe [:get-til-by-id @id])]
     [:div.row
      [:div.col.l12
-      [:h1 (:title @til)]
+      [:h1 (:title @til)
+       [:small (:user @til)]]
       [:div
        [:h4 (u/format-date (:date @til))]
        (for [tag (:tags @til)]

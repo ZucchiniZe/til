@@ -24,14 +24,13 @@
         user (users/get-by-name db {:username username})
         found-password (:password user)]
     (if (and user (hashers/check password found-password))
-        (let [next-url (get-in request [:query-params :next] "/")
-              pre-session (assoc session :identity (:username user))
-              updated-session (assoc pre-session :uid (:id user))]
-          (-> (redirect next-url)
-              (assoc :session updated-session)))
-      (do
-        (println "wtf?")
-        pages/login))))
+      (let [next-url (get-in request [:query-params :next] "/")
+            new-session (-> session
+                            (assoc :identity (:username user))
+                            (assoc :uid (:id user)))]
+        (-> (redirect next-url)
+            (assoc :session new-session)))
+        pages/login)))
 
 (defn logout [request]
   (-> (redirect "/")

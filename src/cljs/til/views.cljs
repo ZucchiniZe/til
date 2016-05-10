@@ -11,6 +11,7 @@
             [til.pages.not-found :as not-found]))
 
 (defmulti  page identity)
+(defmethod page :default [] [home/page])
 (defmethod page :home [] [home/page])
 (defmethod page :tils [] [tils/page])
 (defmethod page :til  [] [til/page])

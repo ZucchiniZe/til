@@ -1,7 +1,9 @@
 (ns til.sente
   (:require [taoensso.sente :as sente]
             [taoensso.timbre :as timbre :refer (tracef debugf infof warnf errorf)]
-            [taoensso.sente.server-adapters.http-kit :refer (sente-web-server-adapter)]))
+            [taoensso.sente.server-adapters.http-kit :refer (sente-web-server-adapter)]
+            [til.db :refer [db]]
+            [til.db.tils :as tils]))
 
 (let [{:keys [ch-recv send-fn ajax-post-fn ajax-get-or-ws-handshake-fn
               connected-uids]}
@@ -32,7 +34,8 @@
   :default ; Default/fallback case (no other matching handler)
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
   (let [session (:session ring-req)
-        uid     (:uid     session)]))
+        uid     (:uid     session)]
+    ))
 
 (defmethod -event-msg-handler :chsk/ws-ping
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
@@ -43,6 +46,12 @@
 (defmethod -event-msg-handler :til/add
   [{:as ev-msg :keys [?data]}]
   (add-new-til ?data))
+
+(defmethod -event-msg-handler :sync/initial
+  [{:as ev-msg :keys [uid ?reply-fn]}]
+  ;; TODO: write the serverside sync code here
+  (let [recent-tils (tils/get-20-recent db)]
+    (chsk-send! uid [:sync/data {:tils recent-tils}])))
 
 ;;;; Sente event router (our `event-msg-handler` loop)
 

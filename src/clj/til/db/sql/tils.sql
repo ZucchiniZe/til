@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS tils (
        FOREIGN KEY(user_id) REFERENCES users (id)
 );
 
--- :name create :! :n
+-- :name create-sql :! :n
 -- :doc insert one til into the database
 INSERT INTO tils (title, body, tags, user_id, created_at)
 VALUES (:title, :body, :tags, :user_id, current_timestamp)

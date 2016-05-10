@@ -2,7 +2,8 @@
   (:require [re-frame.core :as rf]
             [til.data :as data]
             [til.util :as u]
-            [til.analytics :as a]))
+            [til.analytics :as a]
+            [til.sente :as s]))
 
 (rf/register-handler
  :initalize-db
@@ -46,3 +47,18 @@
      (-> db
          (assoc :tils (conj tils with-date))
          (assoc :current-id (inc id))))))
+
+(rf/register-handler
+ :initial-sync
+ rf/trim-v
+ (fn [db first]
+   (s/chsk-send! [:sync/initial {:timestamp (js/Date.)}])
+   ;; transparent handler, no modifing the db
+   db))
+
+(rf/register-handler
+ :sync-tils
+ rf/trim-v
+ (fn [db [data]]
+   (let [reply (into [] (map #(update % :tags cljs.reader/read-string) data))]
+     (assoc db :tils reply))))

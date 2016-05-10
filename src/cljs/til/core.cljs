@@ -15,6 +15,7 @@
 
 (defn ^:export init! []
   (sente/start-router!)
+  ;; (sente/chsk-send! [:state/req-sync])
   (routes/add-routes)
   (rf/dispatch-sync [:initalize-db])
   (mount-root))
@@ -26,3 +27,6 @@
 (defn ^:export register! []
   (rf/dispatch-sync [:set-active-page :register])
   (mount-root))
+
+(defn ^:export send-sync []
+  (sente/chsk-send! [:sync/initial {}]))

@@ -36,7 +36,9 @@
 
 (defmethod -event-msg-handler :chsk/state
   [{:as ev-msg :keys [?data]}]
-  )
+  (when (:first-open? ?data)
+    (println "requesting data")
+    (rf/dispatch [:initial-sync])))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
@@ -46,6 +48,15 @@
   [{:as ev-msg :keys [?data]}]
   ;; (timbre/debug "got til event" ?data)
   (rf/dispatch [:add-new-til ?data]))
+
+(defmethod -event-msg-handler :sync/data
+  [{:as ev-msg :keys [?data]}]
+  (rf/dispatch [:sync-tils (:tils ?data)]))
+
+;; (defmethod -event-msg-handler :state/recv-sync
+;;   [{:as ev-msg :keys [?data]}]
+;;   ;; TODO: write the client side sync code here
+;;   (println ?data))
 
 
 ;; -------------------------
@@ -58,3 +69,5 @@
   (reset! router_
           (sente/start-client-chsk-router!
            ch-chsk event-msg-handler)))
+
+(def cb-success? sente/cb-success?)
